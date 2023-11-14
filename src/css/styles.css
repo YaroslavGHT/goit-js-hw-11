@@ -1,0 +1,62 @@
+body {
+    background-color: rgb(240, 243, 235);
+    color: darkblue;
+}
+
+.search-form{
+    padding: 75px 350px;
+    background-color: rgb(164, 174, 171);
+    display: flex;
+}
+
+.search-form input{
+    justify-content: center;
+    align-items: center;
+}
+
+.gallery{
+    padding: 60px 0;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px;
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.photo-card{
+    width: calc((100% - 60px) / 3);
+    display: block;
+    height: 400px;
+}
+
+.images{
+    max-width: 100%;
+}
+
+.info{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin: 0 auto;
+
+}
+
+.pagin{
+    display: flex;
+    margin: 0 auto;
+    gap: 30px;
+    justify-content: center;
+    /* visibility:visible */
+}
+
+/* .btn-prev{
+    
+
+}
+
+.btn-next{
+    
+} */
+
