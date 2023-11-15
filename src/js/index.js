@@ -19,6 +19,7 @@ async function searchFirstPage(e) {
   page = 1;
   mainDiv.innerHTML = '';
   let searchValue = inputSearch.value;
+  console.log(searchValue);
 
   try {
     const newItems = await search.getSearch(searchValue, page);
