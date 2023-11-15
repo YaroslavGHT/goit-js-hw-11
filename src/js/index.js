@@ -31,13 +31,19 @@ async function searchFirstPage(e) {
         const markup = creatGallary(item);
         mainDiv.insertAdjacentHTML("beforeend", markup);
       });
-
-      btnNext.style.visibility = "visible";
+      console.log(newItems.totalHits);
+      if (newItems.totalHits > 20) {
+        btnNext.style.visibility = "visible";
+      } else if (newItems.totalHits <= 20) {
+        btnNext.style.visibility = "hidden";
+      };
+      
       btnNext.addEventListener('click', ( ) => onNextPage(searchValue, (page + 1)));
     } else {
       Notiflix.Notify.info("Sorry, No images found for your request")
     }
   } catch (error) {
+    // btnNext.style.visibility = "hidden";
     console.error("Sorry, there are no images matching your search query. Please try again.", error);
   }
 }
