@@ -6,7 +6,7 @@ const axiosPix = axios.create({
         key: '40634472-56a7999d13afd9c7f5d079b0e',
         q: 'cat',
         image_type: 'photo',
-        per_page: '20',
+        per_page: '40',
         orientation: 'horizontal',
         safesearch: 'true',
         page: '1',
@@ -42,3 +42,18 @@ export class searchAPI {
 //   }
 // }
 
+
+// const options = {
+//   root: null,
+//   rootMargin: '200px',
+//   threshold: 1.0,
+// };
+
+// const callback = function () {
+//   Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+// };
+
+// const observer = new IntersectionObserver(callback, options);
+
+
+  // observer.observe(btnNext);

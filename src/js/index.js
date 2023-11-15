@@ -10,6 +10,26 @@ const btnNext = document.querySelector('.load-more');
 btnNext.style.visibility = "hidden";
 let page = 1;
 
+const options = {
+  root: null,
+  rootMargin: '0px',
+  threshold: 1.0,
+};
+
+const callback = function(entries, observer) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && entry.target === btnNext) {
+        if (btnNext.style.visibility === "hidden") {
+          Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+        observer.unobserve(btnNext);
+      }
+    }
+  });
+};
+
+
+
+const observer = new IntersectionObserver(callback, options);
 
 form.addEventListener("submit", searchFirstPage);
 
@@ -33,19 +53,23 @@ async function searchFirstPage(e) {
         mainDiv.insertAdjacentHTML("beforeend", markup);
       });
       console.log(newItems.totalHits);
-      if (newItems.totalHits > 20) {
+      
+      if (newItems.totalHits > 40) {
         btnNext.style.visibility = "visible";
-      } else if (newItems.totalHits <= 20) {
+      } else if (newItems.totalHits <= 40) {
+
+        observer.observe(btnNext);
         btnNext.style.visibility = "hidden";
       };
-      
+    
       btnNext.addEventListener('click', ( ) => onNextPage(searchValue, (page + 1)));
     } else {
       Notiflix.Notify.info("Sorry, No images found for your request")
     }
   } catch (error) {
-    // btnNext.style.visibility = "hidden";
-    console.error("Sorry, there are no images matching your search query. Please try again.", error);
+    btnNext.style.visibility = "hidden";
+    Notiflix.Notify.warning("Sorry, there are no images matching your search query. Please try again.");
+    
   }
 }
 
@@ -59,7 +83,7 @@ async function onNextPage(searchValue, currentPage) {
     });
 
     page = currentPage;
-    const maxPage = Math.ceil(newItems.totalHits / 20);
+    const maxPage = Math.ceil(newItems.totalHits / 40);
     console.log(`max${ maxPage}`);
     console.log(`cur${currentPage}`);
 
@@ -67,69 +91,15 @@ async function onNextPage(searchValue, currentPage) {
       btnNext.style.visibility = "visible";
     } else if (currentPage >= maxPage) {
       btnNext.style.visibility = "hidden";
-      Notiflix.Notify.info("Sorry, No images found for your request")
+      observer.observe(btnNext);
     }
   } catch (error) {
+    Notiflix.Notify.warning("Sorry, there are no images matching your search query. Please try again.");
     console.error('Error fetching data:', error);
   }
 }
 
 
-
-
-// function searchFirstPage(e) {
-//   e.preventDefault();
-//   page = 1;
-//   mainDiv.innerHTML = '';
-//   let searcVal = inputSearch.value;
-//   console.log(searcVal);
-//   search.getSearch(searcVal, page)
-//   .then(newItems => {
-//     if (newItems && newItems.hits && newItems.hits.length > 0) {
-//       console.log(newItems);
-//       Notiflix.Notify.info(`We found ${newItems.totalHits} images`)
-//       newItems.hits.forEach(item => {
-//         const markup = creatGallary(item);
-//         mainDiv.insertAdjacentHTML("beforeend", markup);
-//       });
-//       btnNext.style.visibility = "visible";
-//       btnNext.addEventListener('click', ( ) => onNextPage(searcVal, (page + 1)));
-//     } else {
-//       Notiflix.Notify.info("Sorry, No images found for your request")
-//     }
-//   })
-//   .catch(error => {
-//     console.error("Sorry, there are no images matching your search query. Please try again.", error);
-//   });
-// }
-
-// function onNextPage(searcVal, currentPage) {
- 
-//   search.getSearch(searcVal, currentPage)
-//     .then(newItems => {
-
-//       newItems.hits.forEach(item => {
-//         const markup = creatGallary(item);
-//         mainDiv.insertAdjacentHTML("beforeend", markup);
-//       });
-//       page = currentPage;
-//       const maxPage = Math.ceil(newItems.totalHits / 3);
-//       console.log(newItems.totalHits);
-//       console.log(maxPage);
-//       console.log(currentPage);
-//       console.log(maxPage > currentPage);
-//       if (maxPage > currentPage) {
-//         btnNext.style.visibility = "visible";
-//       } else if (currentPage >= maxPage) {
-//         btnNext.style.visibility = "hidden";
-//         Notiflix.Notify.info("Sorry, No images found for your request")
-//       }
-        
-//     })
-//     .catch(error => {
-//       console.error('Error fetching data:', error);
-//     });
-// }
 
 
 function creatGallary(item) {
